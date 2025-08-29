@@ -1,5 +1,5 @@
 ﻿using WorkoutApplication.ExerciseAggregate;
-using WorkoutDomain.ExerciseAggregate;
+using WorkoutDomain.ExerciseAggregate.Repositories;
 using WorkoutInfrastructure.AutoMapper.ExerciseAggregate;
 using WorkoutInfrastructure.EFCore.ExerciseAggregate;
 using WorkoutPresentation;

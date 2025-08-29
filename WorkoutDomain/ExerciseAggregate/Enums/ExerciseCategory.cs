@@ -1,6 +1,6 @@
 ﻿using BaseDomain;
 
-namespace WorkoutDomain.ExerciseAggregate
+namespace WorkoutDomain.ExerciseAggregate.Enums
 {
     public sealed class ExerciseCategory : Enumeration
     {

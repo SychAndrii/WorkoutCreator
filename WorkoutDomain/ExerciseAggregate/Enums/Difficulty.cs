@@ -1,6 +1,6 @@
 ﻿using BaseDomain;
 
-namespace WorkoutDomain.ExerciseAggregate
+namespace WorkoutDomain.ExerciseAggregate.Enums
 {
     public sealed class Difficulty : Enumeration
     {
@@ -11,5 +11,6 @@ namespace WorkoutDomain.ExerciseAggregate
         private Difficulty(string name) : base(name) { }
 
         public static IEnumerable<Difficulty> List() => GetAll<Difficulty>();
+        public static Difficulty FromString(string name) => FromString<Difficulty>(name);
     }
 }

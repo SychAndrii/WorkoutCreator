@@ -1,4 +1,5 @@
 ﻿using WorkoutDomain.ExerciseAggregate;
+using WorkoutDomain.ExerciseAggregate.Repositories;
 
 namespace WorkoutApplication.ExerciseAggregate
 {

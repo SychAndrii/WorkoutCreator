@@ -1,5 +1,6 @@
 ﻿using BaseDomain;
 using WorkoutDomain.ExerciseAggregate;
+using WorkoutDomain.ExerciseAggregate.Repositories;
 
 namespace WorkoutInfrastructure.EFCore.ExerciseAggregate
 {

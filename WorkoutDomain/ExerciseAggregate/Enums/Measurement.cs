@@ -1,6 +1,6 @@
 ﻿using BaseDomain;
 
-namespace WorkoutDomain.ExerciseAggregate
+namespace WorkoutDomain.ExerciseAggregate.Enums
 {
 
     public class Measurement : Enumeration
@@ -13,5 +13,6 @@ namespace WorkoutDomain.ExerciseAggregate
         private Measurement(string name) : base(name) { }
 
         public static IEnumerable<Measurement> List() => GetAll<Measurement>();
+        public static Measurement FromString(string name) => FromString<Measurement>(name);
     }
 }

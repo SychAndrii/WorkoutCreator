@@ -1,5 +1,5 @@
 ﻿using BaseDomain;
-using WorkoutDomain.ExerciseAggregate;
+using WorkoutDomain.ExerciseAggregate.Repositories;
 using WorkoutDomain.WorkoutAggregate.Entry;
 
 namespace WorkoutDomain.WorkoutAggregate

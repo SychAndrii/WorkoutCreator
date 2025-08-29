@@ -1,4 +1,4 @@
-﻿namespace WorkoutDomain.ExerciseAggregate
+﻿namespace WorkoutDomain.ExerciseAggregate.Repositories
 {
     public interface ExerciseRepository
     {
