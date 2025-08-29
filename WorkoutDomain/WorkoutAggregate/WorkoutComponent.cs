@@ -1,5 +1,5 @@
 ﻿using BaseDomain;
-using WorkoutDomain.ExerciseAggregate;
+using WorkoutDomain.ExerciseAggregate.Enums;
 using WorkoutDomain.WorkoutAggregate.Entry;
 
 namespace WorkoutDomain.WorkoutAggregate

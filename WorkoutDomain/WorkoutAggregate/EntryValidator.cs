@@ -18,7 +18,7 @@ namespace WorkoutDomain.WorkoutAggregate
             var exercise = await exerciseRepository.Get(exerciseName);
             return exercise == null
                 ? throw new NullReferenceException($"Exercise [{exerciseName}] does not exist")
-                : exercise.AllowsMeasurement(entry.Type);
+                : exercise.PossibleMeasurements.Contains(entry.Type);
         }
     }
 }

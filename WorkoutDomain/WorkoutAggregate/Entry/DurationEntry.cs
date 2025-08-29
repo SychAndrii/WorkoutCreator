@@ -1,4 +1,4 @@
-﻿using WorkoutDomain.ExerciseAggregate;
+﻿using WorkoutDomain.ExerciseAggregate.Enums;
 
 namespace WorkoutDomain.WorkoutAggregate.Entry
 {
