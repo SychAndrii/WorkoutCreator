@@ -5,6 +5,13 @@ using WorkoutDomain.ExerciseAggregate.Enums;
 
 namespace WorkoutDomain.ExerciseAggregate
 {
+    /// <summary>
+    /// Represents an exercise aggregate root in the domain model.
+    /// </summary>
+    /// <remarks>
+    /// An <see cref="Exercise"/> enforces business rules through validation logic
+    /// in its constructor to ensure the consistency and integrity of the domain.
+    /// </remarks>
     public class Exercise : AggregateRoot<NormalizedString>
     {
         public NormalizedString Name
@@ -15,10 +22,18 @@ namespace WorkoutDomain.ExerciseAggregate
         {
             get;
         }
+
+        /// <summary>
+        /// The category the exercise belongs to.
+        /// </summary>
         public ExerciseCategory Category
         {
             get;
         }
+
+        /// <summary>
+        /// The set of allowed measurements for tracking this exercise (e.g., reps, duration).
+        /// </summary>
         public IReadOnlySet<Measurement> PossibleMeasurements
         {
             get;
@@ -27,15 +42,26 @@ namespace WorkoutDomain.ExerciseAggregate
         {
             get;
         }
+
+        /// <summary>
+        /// The primary muscle groups targeted by the exercise.
+        /// </summary>
         public IReadOnlySet<MuscleGroup>? PrimaryMuscles
         {
             get;
         }
+
+        /// <summary>
+        /// The secondary muscle groups affected by the exercise.
+        /// </summary>
         public IReadOnlySet<MuscleGroup>? SecondaryMuscles
         {
             get;
         }
 
+        /// <summary>
+        /// A static instance representing a rest period, used in workouts.
+        /// </summary>
         public readonly static Exercise REST = new("Rest", Difficulty.Low, ExerciseCategory.Recovery, new HashSet<Measurement>
         {
             Measurement.Duration
@@ -44,6 +70,17 @@ namespace WorkoutDomain.ExerciseAggregate
 
         public override NormalizedString Id => Name;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Exercise"/> class with full validation of business rules.
+        /// </summary>
+        /// <param name="name">The name of the exercise.</param>
+        /// <param name="difficulty">The difficulty level.</param>
+        /// <param name="category">The category of exercise.</param>
+        /// <param name="possibleMeasurements">The set of allowed measurement types.</param>
+        /// <param name="equipment">The optional set of required equipment.</param>
+        /// <param name="primaryMuscles">The set of primary muscles targeted by the exercise. Required for Strength and Cardio exercises.</param>
+        /// <param name="secondaryMuscles">The secondary muscles optionally involved. Cannot contain same values as primaryMuscles.</param>
+        /// <exception cref="InvalidExerciseException">Thrown when one or more business rules are violated.</exception>
         private Exercise(string name, Difficulty difficulty, ExerciseCategory category, ISet<Measurement> possibleMeasurements, ISet<Equipment>? equipment, ISet<MuscleGroup>? primaryMuscles, ISet<MuscleGroup>? secondaryMuscles)
         {
             if (!ValidNameRegex.IsMatch(name))
@@ -122,6 +159,13 @@ namespace WorkoutDomain.ExerciseAggregate
                 _category = category;
             }
 
+            /// <summary>
+            /// Creates a new builder instance for constructing an <see cref="Exercise"/>.
+            /// </summary>
+            /// <param name="name">The exercise name.</param>
+            /// <param name="difficulty">The difficulty level.</param>
+            /// <param name="category">The category of the exercise.</param>
+            /// <returns>An initialized <see cref="ExerciseBuilder"/>.</returns>
             public static ExerciseBuilder Create(string name, Difficulty difficulty, ExerciseCategory category)
                 => new(name, difficulty, category);
 
@@ -169,6 +213,11 @@ namespace WorkoutDomain.ExerciseAggregate
                 return this;
             }
 
+            /// <summary>
+            /// Builds the <see cref="Exercise"/> instance.
+            /// </summary>
+            /// <returns>A valid <see cref="Exercise"/> object.</returns>
+            /// <exception cref="InvalidOperationException">Thrown if required fields are missing before build.</exception>
             public Exercise Build()
             {
                 return _name is null || _difficulty is null || _category is null || _measurements is null
