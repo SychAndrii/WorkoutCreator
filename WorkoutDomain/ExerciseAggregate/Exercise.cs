@@ -104,5 +104,85 @@ namespace WorkoutDomain.ExerciseAggregate
                 throw new Exception("Strength and Cardio exercises must have at least one primary muscle group targeted");
             }
         }
+
+        public class ExerciseBuilder
+        {
+            private string _name;
+            private Difficulty _difficulty;
+            private ExerciseCategory? _category;
+            private ISet<Measurement>? _measurements;
+            private ISet<Equipment>? _equipment;
+            private ISet<MuscleGroup>? _primaryMuscles;
+            private ISet<MuscleGroup>? _secondaryMuscles;
+
+            private ExerciseBuilder(string name, Difficulty difficulty, ExerciseCategory category)
+            {
+                _name = name;
+                _difficulty = difficulty;
+                _category = category;
+            }
+
+            public static ExerciseBuilder Create(string name, Difficulty difficulty, ExerciseCategory category)
+                => new(name, difficulty, category);
+
+            public ExerciseBuilder WithMeasurements(params Measurement[] measurements)
+            {
+                _measurements ??= new HashSet<Measurement>();
+                foreach (var m in measurements)
+                {
+                    _measurements.Add(m);
+                }
+
+                return this;
+            }
+
+            public ExerciseBuilder WithEquipment(IEnumerable<Equipment> equipment)
+            {
+                _equipment = new HashSet<Equipment>();
+                foreach (var e in equipment)
+                {
+                    _equipment.Add(e);
+                }
+
+                return this;
+            }
+
+            public ExerciseBuilder WithPrimaryMuscles(IEnumerable<MuscleGroup> muscles)
+            {
+                _primaryMuscles ??= new HashSet<MuscleGroup>();
+                foreach (var m in muscles)
+                {
+                    _primaryMuscles.Add(m);
+                }
+
+                return this;
+            }
+
+            public ExerciseBuilder WithSecondaryMuscles(IEnumerable<MuscleGroup> muscles)
+            {
+                _secondaryMuscles ??= new HashSet<MuscleGroup>();
+                foreach (var m in muscles)
+                {
+                    _secondaryMuscles.Add(m);
+                }
+
+                return this;
+            }
+
+            public Exercise Build()
+            {
+                return _name is null || _difficulty is null || _category is null || _measurements is null
+                    ? throw new InvalidOperationException("Name, difficulty, category, and measurements must be set.")
+                    : new Exercise(
+                    name: _name,
+                    difficulty: _difficulty,
+                    category: _category,
+                    possibleMeasurements: _measurements,
+                    equipment: _equipment,
+                    primaryMuscles: _primaryMuscles,
+                    secondaryMuscles: _secondaryMuscles
+                );
+            }
+        }
     }
 }
