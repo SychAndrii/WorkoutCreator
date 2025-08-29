@@ -2,6 +2,12 @@
 
 namespace WorkoutDomain.ExerciseAggregate.Enums
 {
+    /// <summary>
+    /// Represents a type of equipment that can be required or used in an exercise.
+    /// </summary>
+    /// <remarks>
+    /// This is a value-based enumeration derived from <see cref="Enumeration"/> that provides a strongly typed set of known equipment types.
+    /// </remarks>
     public class Equipment : Enumeration
     {
         // Free Weights
@@ -50,7 +56,18 @@ namespace WorkoutDomain.ExerciseAggregate.Enums
         {
         }
 
+        /// <summary>
+        /// Returns all defined <see cref="Equipment"/> values.
+        /// </summary>
+        /// <returns>A collection of all equipment types.</returns>
         public static IEnumerable<Equipment> List() => GetAll<Equipment>();
+
+        /// <summary>
+        /// Parses a string into an <see cref="Equipment"/> instance.
+        /// </summary>
+        /// <param name="name">The string name of the equipment to parse.</param>
+        /// <returns>The corresponding <see cref="Equipment"/> value.</returns>
+        /// <exception cref="ArgumentException">Thrown if the name is invalid or not recognized.</exception>
         public static Equipment FromString(string name) => FromString<Equipment>(name);
     }
 }
