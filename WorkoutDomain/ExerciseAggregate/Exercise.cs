@@ -48,13 +48,13 @@ namespace WorkoutDomain.ExerciseAggregate
         {
             if (!ValidNameRegex.IsMatch(name))
             {
-                throw new ArgumentException($"Invalid exercise name: [{name}]. Only English letters and spaces are allowed.");
+                throw new InvalidExerciseException($"Invalid exercise name: [{name}]. Only English letters and spaces are allowed.");
             }
             NormalizedString normalizedName = name;
 
             if (normalizedName.Length < 3)
             {
-                throw new ArgumentException($"Invalid exercise name: [{name}]. The name must be at least 3 characters long.");
+                throw new InvalidExerciseException($"Invalid exercise name: [{name}]. The name must be at least 3 characters long.");
             }
 
             Name = normalizedName;
@@ -63,31 +63,31 @@ namespace WorkoutDomain.ExerciseAggregate
 
             if (possibleMeasurements.Count == 0)
             {
-                throw new ArgumentException("There has to be at least one possible measurement for the exercise");
+                throw new InvalidExerciseException("There has to be at least one possible measurement for the exercise");
             }
             PossibleMeasurements = possibleMeasurements.ToImmutableHashSet();
 
             if (equipment != null && equipment.Count == 0)
             {
-                throw new ArgumentException("Required equipment must either be not specified at all or be non-empty");
+                throw new InvalidExerciseException("Required equipment must either be not specified at all or be non-empty");
             }
             RequiredEquipment = equipment?.ToImmutableHashSet();
 
             if (primaryMuscles != null && primaryMuscles.Count == 0)
             {
-                throw new ArgumentException("Primary muscle groups must either be not specified at all or be non-empty");
+                throw new InvalidExerciseException("Primary muscle groups must either be not specified at all or be non-empty");
             }
             PrimaryMuscles = primaryMuscles?.ToImmutableHashSet();
 
             if (secondaryMuscles != null && secondaryMuscles.Count == 0)
             {
-                throw new ArgumentException("Secondary muscle groups must either be not specified at all or be non-empty");
+                throw new InvalidExerciseException("Secondary muscle groups must either be not specified at all or be non-empty");
             }
             SecondaryMuscles = secondaryMuscles?.ToImmutableHashSet();
 
             if (PrimaryMuscles == null && SecondaryMuscles != null)
             {
-                throw new ArgumentException("Secondary muscle groups must be specified only if Primary muscle groups are also specified");
+                throw new InvalidExerciseException("Secondary muscle groups must be specified only if Primary muscle groups are also specified");
             }
 
             if (PrimaryMuscles != null && SecondaryMuscles != null)
@@ -95,13 +95,13 @@ namespace WorkoutDomain.ExerciseAggregate
                 var samePrimaryAndSecondaryMuscles = PrimaryMuscles.Intersect(SecondaryMuscles);
                 if (samePrimaryAndSecondaryMuscles.Any())
                 {
-                    throw new ArgumentException($"Primary muscle groups must not also be secondary muscle groups. Repeated primary and secondary muscles: [{samePrimaryAndSecondaryMuscles}]");
+                    throw new InvalidExerciseException($"Primary muscle groups must not also be secondary muscle groups. Repeated primary and secondary muscles: [{samePrimaryAndSecondaryMuscles}]");
                 }
             }
 
             if ((Category == ExerciseCategory.Strength || Category == ExerciseCategory.Cardio) && PrimaryMuscles == null)
             {
-                throw new Exception("Strength and Cardio exercises must have at least one primary muscle group targeted");
+                throw new InvalidExerciseException("Strength and Cardio exercises must have at least one primary muscle group targeted");
             }
         }
 
